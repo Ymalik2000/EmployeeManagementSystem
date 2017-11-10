@@ -51,6 +51,31 @@ public class MyHashTable {
 		}
 		return -1;
 	}
+	
+	public void displayEmployee(int employeeNum) {
+		
+		// THIS LINE DOES NOT WORK, TO BE FIXED!!!
+		EmployeeInfo theEmployee = (EmployeeInfo) buckets[calcBucket(employeeNum)].get(searchByEmployeeNumber(employeeNum));
+		
+		System.out.println("Employee number: " + theEmployee.getEmpNum());
+		System.out.println("First name: " + theEmployee.getFirstName());
+		System.out.println("Last name: " + theEmployee.getLastName());
+		System.out.println("Sex: " + theEmployee.getSex());
+		System.out.println("Work location: " + theEmployee.getWorkLoc());
+		System.out.println("Deduct rate: " + theEmployee.getDeductRate());
+		if (theEmployee instanceof FullTimeEmployee) {
+			System.out.println("Annual gross income: " + ((FullTimeEmployee) theEmployee).calcAnnualGrossIncome());
+			System.out.println("Annual net income: " + ((FullTimeEmployee) theEmployee).calcAnnualNetIncome());
+			System.out.println("Yearly salary: " + ((FullTimeEmployee) theEmployee).getYearlySalary());
+		}
+		else if (theEmployee instanceof PartTimeEmployee) {
+			System.out.println("Annual gross income: " + ((PartTimeEmployee) theEmployee).calcAnnualGrossIncome());
+			System.out.println("Annual net income: " + ((PartTimeEmployee) theEmployee).calcAnnualNetIncome());
+			System.out.println("Hourly wage: " + ((PartTimeEmployee) theEmployee).getHourlyWage());
+			System.out.println("Hours per week: " + ((PartTimeEmployee) theEmployee).getHoursPerWeek());
+			System.out.println("Weeks per year: " + ((PartTimeEmployee) theEmployee).getWeeksPerYear());
+		}
+	}
 
 	public EmployeeInfo removeEmployee(int employeeNum) {
 		// Remove the employee from the hash table and return the reference to that

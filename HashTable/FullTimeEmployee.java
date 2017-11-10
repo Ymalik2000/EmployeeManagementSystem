@@ -1,17 +1,26 @@
 public class FullTimeEmployee extends EmployeeInfo {
 
-	public FullTimeEmployee(int eN, String fN, String lN, int s, int wL, double dR) {
+	// ATTRIBUTES
+	private double yearlySalary;
+
+	// CONSTRUCTORS
+	public FullTimeEmployee(int eN, String fN, String lN, int s, int wL, double dR, int yS) {
 		super(eN, fN, lN, s, wL, dR);
+		yearlySalary = yS;
 	}
 
-	private double yearlySalary;
-	
+	// METHODS
 	public double calcAnnualGrossIncome() {
 		return (yearlySalary);
 	}
-	
+
 	public double calcAnnualNetIncome() {
-		return (yearlySalary*(1-getDeductRate()));
+		return (yearlySalary * (1 - getDeductRate()));
+	}
+
+	// GETTERS
+	public double getYearlySalary() {
+		return (yearlySalary);
 	}
 
 }

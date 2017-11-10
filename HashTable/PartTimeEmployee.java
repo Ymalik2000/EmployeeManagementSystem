@@ -1,19 +1,38 @@
 public class PartTimeEmployee extends EmployeeInfo {
 
-	public PartTimeEmployee(int eN, String fN, String lN, int s, int wL, double dR) {
-		super(eN, fN, lN, s, wL, dR);
-	}
-
+	// ATTRIBUTES
 	private double hourlyWage;
 	private double hoursPerWeek;
 	private double weeksPerYear;
-	
-	public double calcAnnualGrossIncome() {
-		return (hourlyWage*hoursPerWeek*weeksPerYear);
+
+	// CONSTRUCTORS
+	public PartTimeEmployee(int eN, String fN, String lN, int s, int wL, double dR, double hW, double hPW, double wPY) {
+		super(eN, fN, lN, s, wL, dR);
+		hourlyWage = hW;
+		hoursPerWeek = hPW;
+		weeksPerYear = wPY;
 	}
-	
+
+	// METHODS
+	public double calcAnnualGrossIncome() {
+		return (hourlyWage * hoursPerWeek * weeksPerYear);
+	}
+
 	public double calcAnnualNetIncome() {
-		return (hourlyWage*hoursPerWeek*weeksPerYear*(1-getDeductRate()));
+		return (hourlyWage * hoursPerWeek * weeksPerYear * (1 - getDeductRate()));
+	}
+
+	// GETTERS
+	public double getHourlyWage() {
+		return (hourlyWage);
+	}
+
+	public double getHoursPerWeek() {
+		return (hoursPerWeek);
+	}
+
+	public double getWeeksPerYear() {
+		return (weeksPerYear);
 	}
 
 }
