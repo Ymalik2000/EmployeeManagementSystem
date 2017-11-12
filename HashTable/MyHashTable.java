@@ -42,21 +42,18 @@ public class MyHashTable {
 		// employee hashes to.
 		// If the employee is not found, return -1.
 		int size = buckets[employeeNum % buckets.length].size();
-		EmployeeInfo theEmployee;
 		for (int i = 0; i < size; i++) {
-			theEmployee = (EmployeeInfo) buckets[employeeNum % buckets.length].get(i);
+			EmployeeInfo theEmployee = (EmployeeInfo) buckets[employeeNum % buckets.length].get(i);
 			if (theEmployee.getEmpNum() == employeeNum) {
 				return (i);
 			}
 		}
 		return -1;
 	}
-	
+
 	public void displayEmployee(int employeeNum) {
-		
-		// THIS LINE DOES NOT WORK, TO BE FIXED!!!
-		EmployeeInfo theEmployee = (EmployeeInfo) buckets[calcBucket(employeeNum)].get(searchByEmployeeNumber(employeeNum));
-		
+		EmployeeInfo theEmployee = (EmployeeInfo) buckets[calcBucket(employeeNum)]
+				.get(searchByEmployeeNumber(employeeNum));
 		System.out.println("Employee number: " + theEmployee.getEmpNum());
 		System.out.println("First name: " + theEmployee.getFirstName());
 		System.out.println("Last name: " + theEmployee.getLastName());
@@ -67,8 +64,7 @@ public class MyHashTable {
 			System.out.println("Annual gross income: " + ((FullTimeEmployee) theEmployee).calcAnnualGrossIncome());
 			System.out.println("Annual net income: " + ((FullTimeEmployee) theEmployee).calcAnnualNetIncome());
 			System.out.println("Yearly salary: " + ((FullTimeEmployee) theEmployee).getYearlySalary());
-		}
-		else if (theEmployee instanceof PartTimeEmployee) {
+		} else if (theEmployee instanceof PartTimeEmployee) {
 			System.out.println("Annual gross income: " + ((PartTimeEmployee) theEmployee).calcAnnualGrossIncome());
 			System.out.println("Annual net income: " + ((PartTimeEmployee) theEmployee).calcAnnualNetIncome());
 			System.out.println("Hourly wage: " + ((PartTimeEmployee) theEmployee).getHourlyWage());
@@ -94,14 +90,18 @@ public class MyHashTable {
 		// Start with bucket 0, then bucket 1, and so on.
 		for (int i = 0; i < buckets.length; i++) {
 			// For the current bucket, print out the empNum for each item in its ArrayList.
-			System.out.println("Examining the ArrayList for bucket " + i);
+			System.out.println("Examining the ArrayList for bucket " + i + ":");
 			int listSize = buckets[i].size();
 			if (listSize == 0) {
-				System.out.println("Nothing in its ArrayList");
+				System.out.println("The ArrayList is empty.");
 			} else {
 				for (int j = 0; j < listSize; j++) {
 					int theEmpNum = buckets[i].get(j).getEmpNum();
+					String theFN = buckets[i].get(j).getFirstName();
+					String theLN = buckets[i].get(j).getLastName();
 					System.out.println("Employee " + theEmpNum);
+					System.out.println("First name: " + theFN);
+					System.out.println("Last name: " + theLN);
 				}
 			}
 		}
