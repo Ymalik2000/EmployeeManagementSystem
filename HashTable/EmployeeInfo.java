@@ -4,12 +4,12 @@ public class EmployeeInfo {
 	private int empNum;
 	private String firstName;
 	private String lastName;
-	private int sex;
-	private int workLoc;
+	private String sex;
+	private String workLoc;
 	private double deductRate;
 
 	// CONSTRUCTORS
-	public EmployeeInfo(int eN, String fN, String lN, int s, int wL, double dR) {
+	public EmployeeInfo(int eN, String fN, String lN, String s, String wL, double dR) {
 		empNum = eN;
 		firstName = fN;
 		lastName = lN;
@@ -31,11 +31,11 @@ public class EmployeeInfo {
 		return (lastName);
 	}
 
-	public int getSex() {
+	public String getSex() {
 		return (sex);
 	}
 
-	public int getWorkLoc() {
+	public String getWorkLoc() {
 		return (workLoc);
 	}
 
