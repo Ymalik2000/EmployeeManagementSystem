@@ -30,7 +30,7 @@ public class MyHashTable {
 	public boolean addEmployee(EmployeeInfo theEmployee) {
 		// Add the employee to the hash table.
 		// Return true if employee is added successfully, return false otherwise.
-		if (buckets[theEmployee.getEmpNum() % buckets.length].add(theEmployee)) {
+		if (buckets[calcBucket(theEmployee.getEmpNum())].add(theEmployee)) {
 			return (true);
 		} else {
 			return (false);
@@ -41,9 +41,10 @@ public class MyHashTable {
 		// Determine the position of the employee in the ArrayList for the bucket that
 		// employee hashes to.
 		// If the employee is not found, return -1.
-		int size = buckets[employeeNum % buckets.length].size();
+		int size = buckets[calcBucket(employeeNum)].size();
+		EmployeeInfo theEmployee;
 		for (int i = 0; i < size; i++) {
-			EmployeeInfo theEmployee = (EmployeeInfo) buckets[employeeNum % buckets.length].get(i);
+			theEmployee = (EmployeeInfo) buckets[calcBucket(employeeNum)].get(i);
 			if (theEmployee.getEmpNum() == employeeNum) {
 				return (i);
 			}
@@ -79,7 +80,7 @@ public class MyHashTable {
 		// If the employee is not in the hash table, return null.
 		int i = searchByEmployeeNumber(employeeNum);
 		if (i != -1) {
-			return ((EmployeeInfo) buckets[employeeNum % buckets.length].remove(i));
+			return ((EmployeeInfo) buckets[calcBucket(employeeNum)].remove(i));
 		}
 		return null;
 	}
@@ -96,9 +97,10 @@ public class MyHashTable {
 				System.out.println("The ArrayList is empty.");
 			} else {
 				for (int j = 0; j < listSize; j++) {
-					int theEmpNum = buckets[i].get(j).getEmpNum();
-					String theFN = buckets[i].get(j).getFirstName();
-					String theLN = buckets[i].get(j).getLastName();
+					EmployeeInfo theEmployee = buckets[i].get(j);
+					int theEmpNum = theEmployee.getEmpNum();
+					String theFN = theEmployee.getFirstName();
+					String theLN = theEmployee.getLastName();
 					System.out.println("Employee " + theEmpNum);
 					System.out.println("First name: " + theFN);
 					System.out.println("Last name: " + theLN);

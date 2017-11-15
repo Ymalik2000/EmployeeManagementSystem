@@ -6,7 +6,8 @@ public class PartTimeEmployee extends EmployeeInfo {
 	private double weeksPerYear;
 
 	// CONSTRUCTORS
-	public PartTimeEmployee(int eN, String fN, String lN, String s, String wL, double dR, double hW, double hPW, double wPY) {
+	public PartTimeEmployee(int eN, String fN, String lN, String s, String wL, double dR, double hW, double hPW,
+			double wPY) {
 		super(eN, fN, lN, s, wL, dR);
 		hourlyWage = hW;
 		hoursPerWeek = hPW;
