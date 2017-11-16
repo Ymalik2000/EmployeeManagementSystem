@@ -35,5 +35,18 @@ public class PartTimeEmployee extends EmployeeInfo {
 	public double getWeeksPerYear() {
 		return (weeksPerYear);
 	}
+	
+	// SETTERS
+	public void setHourlyWage(double hourlyWage) {
+		this.hourlyWage = hourlyWage;
+	}
+	
+	public void setHoursPerWeek(double hoursPerWeek) {
+		this.hoursPerWeek = hoursPerWeek;
+	}
+	
+	public void setWeeksPerYear(double weeksPerYear) {
+		this.weeksPerYear = weeksPerYear;
+	}
 
 }

@@ -73,6 +73,36 @@ public class MyHashTable {
 			System.out.println("Weeks per year: " + ((PartTimeEmployee) theEmployee).getWeeksPerYear());
 		}
 	}
+	
+	public void editFullTimeEmployee(int employeeNum, String empType, String firstName, String lastName, String sex, String workLoc, double deductRate, double yearlySalary) {
+		EmployeeInfo theEmployee = (EmployeeInfo) buckets[calcBucket(employeeNum)]
+				.get(searchByEmployeeNumber(employeeNum));
+		
+		if (empType == "Full Time") {
+			// Use setter methods to set new information
+		EmployeeInfo theNewEmployee = new FullTimeEmployee(employeeNum, workLoc, workLoc, workLoc, workLoc, yearlySalary, employeeNum);
+		
+	}
+		else if (empType == "Part Time") {
+			// Instantiate a new part time employee, and transfer the information.
+			
+		}
+		
+	}
+	
+	public void editPartTimeEmployee(int employeeNum, String empType, String firstName, String lastName, String sex, String workLoc, double deductRate, double hourlyWage, double hourPerWeek, double weeksPerYear) {
+		
+		if (empType == "Full Time") {
+			// Instantiate a new full time employee, and transfer the information.
+		EmployeeInfo theNewEmployee = new FullTimeEmployee(employeeNum, workLoc, workLoc, workLoc, workLoc, yearlySalary, employeeNum);
+		
+	}
+		else if (empType == "Part Time") {
+			// Use setter methods to set new information
+			
+		}
+		
+	}
 
 	public EmployeeInfo removeEmployee(int employeeNum) {
 		// Remove the employee from the hash table and return the reference to that

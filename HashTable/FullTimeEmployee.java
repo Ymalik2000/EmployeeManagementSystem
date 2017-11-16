@@ -22,5 +22,10 @@ public class FullTimeEmployee extends EmployeeInfo {
 	public double getYearlySalary() {
 		return (yearlySalary);
 	}
+	
+	// SETTERS
+	public void setYearlySalary(double yearlySalary) {
+		this.yearlySalary = yearlySalary;
+	}
 
 }
