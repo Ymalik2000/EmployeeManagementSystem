@@ -42,30 +42,30 @@ public class EmployeeInfo {
 	public double getDeductRate() {
 		return (deductRate);
 	}
-	
+
 	// SETTERS
 	public void setEmpNum(int empNum) {
 		this.empNum = empNum;
 	}
-	
+
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
-	
+
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	
+
 	public void setSex(String sex) {
 		this.sex = sex;
 	}
-	
+
 	public void setWorkLoc(String workLoc) {
 		this.workLoc = workLoc;
 	}
-	
+
 	public void setDeductRate(double deductRate) {
 		this.deductRate = deductRate;
 	}
-	
+
 }

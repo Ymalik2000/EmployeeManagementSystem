@@ -73,35 +73,51 @@ public class MyHashTable {
 			System.out.println("Weeks per year: " + ((PartTimeEmployee) theEmployee).getWeeksPerYear());
 		}
 	}
-	
-	public void editFullTimeEmployee(int employeeNum, String empType, String firstName, String lastName, String sex, String workLoc, double deductRate, double yearlySalary) {
+
+	public void editEmployee(String empType, int employeeNum, String firstName, String lastName, String sex,
+			String workLoc, double deductRate, double yearlySalary, double hourlyWage, double hoursPerWeek,
+			double weeksPerYear) {
+
 		EmployeeInfo theEmployee = (EmployeeInfo) buckets[calcBucket(employeeNum)]
 				.get(searchByEmployeeNumber(employeeNum));
-		
-		if (empType == "Full Time") {
-			// Use setter methods to set new information
-		EmployeeInfo theNewEmployee = new FullTimeEmployee(employeeNum, workLoc, workLoc, workLoc, workLoc, yearlySalary, employeeNum);
-		
-	}
-		else if (empType == "Part Time") {
-			// Instantiate a new part time employee, and transfer the information.
-			
+
+		if (theEmployee instanceof FullTimeEmployee) {
+			// Editing a full time employee
+			if (empType == "Full Time") {
+				// Use setter methods to set new information
+				theEmployee.setFirstName(firstName);
+				theEmployee.setLastName(lastName);
+				theEmployee.setSex(sex);
+				theEmployee.setWorkLoc(workLoc);
+				theEmployee.setDeductRate(deductRate);
+				((FullTimeEmployee) theEmployee).setYearlySalary(yearlySalary);
+			} else if (empType == "Part Time") {
+				// Instantiate a new part time employee, and transfer the information.
+				removeEmployee(employeeNum);
+				theEmployee = new PartTimeEmployee(employeeNum, firstName, lastName, sex, workLoc, deductRate,
+						hourlyWage, hoursPerWeek, weeksPerYear);
+				addEmployee(theEmployee);
+			}
+		} else if (theEmployee instanceof PartTimeEmployee) {
+			// Editing a part time employee
+			if (empType == "Full Time") {
+				// Instantiate a new full time employee, and transfer the information.
+				removeEmployee(employeeNum);
+				theEmployee = new FullTimeEmployee(employeeNum, firstName, lastName, sex, workLoc, deductRate,
+						yearlySalary);
+				addEmployee(theEmployee);
+			} else if (empType == "Part Time") {
+				// Use setter methods to set new information
+				theEmployee.setFirstName(firstName);
+				theEmployee.setLastName(lastName);
+				theEmployee.setSex(sex);
+				theEmployee.setWorkLoc(workLoc);
+				theEmployee.setDeductRate(deductRate);
+				((PartTimeEmployee) theEmployee).setHourlyWage(hourlyWage);
+				((PartTimeEmployee) theEmployee).setHoursPerWeek(hoursPerWeek);
+				((PartTimeEmployee) theEmployee).setWeeksPerYear(weeksPerYear);
+			}
 		}
-		
-	}
-	
-	public void editPartTimeEmployee(int employeeNum, String empType, String firstName, String lastName, String sex, String workLoc, double deductRate, double hourlyWage, double hourPerWeek, double weeksPerYear) {
-		
-		if (empType == "Full Time") {
-			// Instantiate a new full time employee, and transfer the information.
-		EmployeeInfo theNewEmployee = new FullTimeEmployee(employeeNum, workLoc, workLoc, workLoc, workLoc, yearlySalary, employeeNum);
-		
-	}
-		else if (empType == "Part Time") {
-			// Use setter methods to set new information
-			
-		}
-		
 	}
 
 	public EmployeeInfo removeEmployee(int employeeNum) {

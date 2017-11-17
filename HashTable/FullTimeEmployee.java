@@ -4,7 +4,7 @@ public class FullTimeEmployee extends EmployeeInfo {
 	private double yearlySalary;
 
 	// CONSTRUCTORS
-	public FullTimeEmployee(int eN, String fN, String lN, String s, String wL, double dR, int yS) {
+	public FullTimeEmployee(int eN, String fN, String lN, String s, String wL, double dR, double yS) {
 		super(eN, fN, lN, s, wL, dR);
 		yearlySalary = yS;
 	}
@@ -22,7 +22,7 @@ public class FullTimeEmployee extends EmployeeInfo {
 	public double getYearlySalary() {
 		return (yearlySalary);
 	}
-	
+
 	// SETTERS
 	public void setYearlySalary(double yearlySalary) {
 		this.yearlySalary = yearlySalary;
