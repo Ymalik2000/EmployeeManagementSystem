@@ -1,4 +1,6 @@
 import java.util.*;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class MyHashTable {
 
@@ -27,14 +29,10 @@ public class MyHashTable {
 		return (keyValue % buckets.length);
 	}
 
-	public boolean addEmployee(EmployeeInfo theEmployee) {
+	public void addEmployee(EmployeeInfo theEmployee) {
 		// Add the employee to the hash table.
-		// Return true if employee is added successfully, return false otherwise.
-		if (buckets[calcBucket(theEmployee.getEmpNum())].add(theEmployee)) {
-			return (true);
-		} else {
-			return (false);
-		}
+		buckets[calcBucket(theEmployee.getEmpNum())].add(theEmployee);
+		writeToFile();
 	}
 
 	public int searchByEmployeeNumber(int employeeNum) {
@@ -62,16 +60,17 @@ public class MyHashTable {
 		System.out.println("Work location: " + theEmployee.getWorkLoc());
 		System.out.println("Deduct rate: " + theEmployee.getDeductRate());
 		if (theEmployee instanceof FullTimeEmployee) {
+			System.out.println("Yearly salary: " + ((FullTimeEmployee) theEmployee).getYearlySalary());
 			System.out.println("Annual gross income: " + ((FullTimeEmployee) theEmployee).calcAnnualGrossIncome());
 			System.out.println("Annual net income: " + ((FullTimeEmployee) theEmployee).calcAnnualNetIncome());
-			System.out.println("Yearly salary: " + ((FullTimeEmployee) theEmployee).getYearlySalary());
 		} else if (theEmployee instanceof PartTimeEmployee) {
-			System.out.println("Annual gross income: " + ((PartTimeEmployee) theEmployee).calcAnnualGrossIncome());
-			System.out.println("Annual net income: " + ((PartTimeEmployee) theEmployee).calcAnnualNetIncome());
 			System.out.println("Hourly wage: " + ((PartTimeEmployee) theEmployee).getHourlyWage());
 			System.out.println("Hours per week: " + ((PartTimeEmployee) theEmployee).getHoursPerWeek());
 			System.out.println("Weeks per year: " + ((PartTimeEmployee) theEmployee).getWeeksPerYear());
+			System.out.println("Annual gross income: " + ((PartTimeEmployee) theEmployee).calcAnnualGrossIncome());
+			System.out.println("Annual net income: " + ((PartTimeEmployee) theEmployee).calcAnnualNetIncome());
 		}
+		System.out.println();
 	}
 
 	public void editEmployee(String empType, int employeeNum, String firstName, String lastName, String sex,
@@ -91,12 +90,14 @@ public class MyHashTable {
 				theEmployee.setWorkLoc(workLoc);
 				theEmployee.setDeductRate(deductRate);
 				((FullTimeEmployee) theEmployee).setYearlySalary(yearlySalary);
+				writeToFile();
 			} else if (empType == "Part Time") {
 				// Instantiate a new part time employee, and transfer the information.
 				removeEmployee(employeeNum);
 				theEmployee = new PartTimeEmployee(employeeNum, firstName, lastName, sex, workLoc, deductRate,
 						hourlyWage, hoursPerWeek, weeksPerYear);
 				addEmployee(theEmployee);
+				writeToFile();
 			}
 		} else if (theEmployee instanceof PartTimeEmployee) {
 			// Editing a part time employee
@@ -106,6 +107,7 @@ public class MyHashTable {
 				theEmployee = new FullTimeEmployee(employeeNum, firstName, lastName, sex, workLoc, deductRate,
 						yearlySalary);
 				addEmployee(theEmployee);
+				writeToFile();
 			} else if (empType == "Part Time") {
 				// Use setter methods to set new information
 				theEmployee.setFirstName(firstName);
@@ -116,19 +118,18 @@ public class MyHashTable {
 				((PartTimeEmployee) theEmployee).setHourlyWage(hourlyWage);
 				((PartTimeEmployee) theEmployee).setHoursPerWeek(hoursPerWeek);
 				((PartTimeEmployee) theEmployee).setWeeksPerYear(weeksPerYear);
+				writeToFile();
 			}
 		}
 	}
 
-	public EmployeeInfo removeEmployee(int employeeNum) {
-		// Remove the employee from the hash table and return the reference to that
-		// employee.
-		// If the employee is not in the hash table, return null.
+	public void removeEmployee(int employeeNum) {
+		// Remove the employee from the hash table
 		int i = searchByEmployeeNumber(employeeNum);
 		if (i != -1) {
-			return ((EmployeeInfo) buckets[calcBucket(employeeNum)].remove(i));
+			buckets[calcBucket(employeeNum)].remove(i);
+			writeToFile();
 		}
-		return null;
 	}
 
 	public void displayContents() {
@@ -137,22 +138,68 @@ public class MyHashTable {
 		// Start with bucket 0, then bucket 1, and so on.
 		for (int i = 0; i < buckets.length; i++) {
 			// For the current bucket, print out the empNum for each item in its ArrayList.
-			System.out.println("Examining the ArrayList for bucket " + i + ":");
 			int listSize = buckets[i].size();
 			if (listSize == 0) {
-				System.out.println("The ArrayList is empty.");
 			} else {
 				for (int j = 0; j < listSize; j++) {
 					EmployeeInfo theEmployee = buckets[i].get(j);
-					int theEmpNum = theEmployee.getEmpNum();
-					String theFN = theEmployee.getFirstName();
-					String theLN = theEmployee.getLastName();
-					System.out.println("Employee " + theEmpNum);
-					System.out.println("First name: " + theFN);
-					System.out.println("Last name: " + theLN);
+					displayEmployee(theEmployee.getEmpNum());
 				}
 			}
 		}
+	}
+
+	public void writeToFile() {
+		// Call this every time the hash table is modified.
+		// Make sure to replace all old contents with new contents.
+		try {
+			FileWriter writer = new FileWriter("TextFile");
+			for (int i = 0; i < buckets.length; i++) {
+				// For the current bucket, print out the empNum for each item in its ArrayList.
+				int listSize = buckets[i].size();
+				if (listSize != 0) {
+					for (int j = 0; j < listSize; j++) {
+						EmployeeInfo theEmployee = buckets[i].get(j);
+						writer.write("" + theEmployee.getEmpNum());
+						writer.write(System.getProperty("line.separator"));
+						writer.write(theEmployee.getFirstName());
+						writer.write(System.getProperty("line.separator"));
+						writer.write(theEmployee.getLastName());
+						writer.write(System.getProperty("line.separator"));
+						writer.write(theEmployee.getSex());
+						writer.write(System.getProperty("line.separator"));
+						writer.write(theEmployee.getWorkLoc());
+						writer.write(System.getProperty("line.separator"));
+						writer.write("" + theEmployee.getDeductRate());
+						writer.write(System.getProperty("line.separator"));
+						if (theEmployee instanceof FullTimeEmployee) {
+							writer.write("" + ((FullTimeEmployee) theEmployee).getYearlySalary());
+							writer.write(System.getProperty("line.separator"));
+						} else if (theEmployee instanceof PartTimeEmployee) {
+							writer.write("" + ((PartTimeEmployee) theEmployee).getHourlyWage());
+							writer.write(System.getProperty("line.separator"));
+							writer.write("" + ((PartTimeEmployee) theEmployee).getHoursPerWeek());
+							writer.write(System.getProperty("line.separator"));
+							writer.write("" + ((PartTimeEmployee) theEmployee).getWeeksPerYear());
+							writer.write(System.getProperty("line.separator"));
+						}
+						writer.write(System.getProperty("line.separator"));
+					}
+				}
+			}
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void readFromFile() {
+		// http://www.codejava.net/java-se/file-io/how-to-read-and-write-text-file-in-java
+		// Call this at the beginning of the test program.
+		// Read from text file and add all contents to the hash table.
+		// If read-in is 7 lines, instantiate a full-time employee and add it.
+		// If read-in is 9 lines, instantiate a part-time employee and add it.
+
 	}
 
 }
