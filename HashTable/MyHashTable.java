@@ -1,4 +1,6 @@
 import java.util.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -53,6 +55,11 @@ public class MyHashTable {
 	public void displayEmployee(int employeeNum) {
 		EmployeeInfo theEmployee = (EmployeeInfo) buckets[calcBucket(employeeNum)]
 				.get(searchByEmployeeNumber(employeeNum));
+		if (theEmployee instanceof FullTimeEmployee) {
+			System.out.println("Employee type: Full Time");
+		} else if (theEmployee instanceof PartTimeEmployee) {
+			System.out.println("Employee type: Part Time");
+		}
 		System.out.println("Employee number: " + theEmployee.getEmpNum());
 		System.out.println("First name: " + theEmployee.getFirstName());
 		System.out.println("Last name: " + theEmployee.getLastName());
@@ -139,8 +146,7 @@ public class MyHashTable {
 		for (int i = 0; i < buckets.length; i++) {
 			// For the current bucket, print out the empNum for each item in its ArrayList.
 			int listSize = buckets[i].size();
-			if (listSize == 0) {
-			} else {
+			if (listSize != 0) {
 				for (int j = 0; j < listSize; j++) {
 					EmployeeInfo theEmployee = buckets[i].get(j);
 					displayEmployee(theEmployee.getEmpNum());
@@ -150,16 +156,23 @@ public class MyHashTable {
 	}
 
 	public void writeToFile() {
-		// Call this every time the hash table is modified.
-		// Make sure to replace all old contents with new contents.
+		// This method is called every time the hash table is modified.
+		// Replaces all old contents with new contents.
 		try {
-			FileWriter writer = new FileWriter("TextFile");
+			FileWriter writer = new FileWriter("textFile");
 			for (int i = 0; i < buckets.length; i++) {
 				// For the current bucket, print out the empNum for each item in its ArrayList.
 				int listSize = buckets[i].size();
 				if (listSize != 0) {
 					for (int j = 0; j < listSize; j++) {
 						EmployeeInfo theEmployee = buckets[i].get(j);
+						if (theEmployee instanceof FullTimeEmployee) {
+							writer.write("Full Time");
+							writer.write(System.getProperty("line.separator"));
+						} else if (theEmployee instanceof PartTimeEmployee) {
+							writer.write("Part Time");
+							writer.write(System.getProperty("line.separator"));
+						}
 						writer.write("" + theEmployee.getEmpNum());
 						writer.write(System.getProperty("line.separator"));
 						writer.write(theEmployee.getFirstName());
@@ -194,12 +207,61 @@ public class MyHashTable {
 	}
 
 	public void readFromFile() {
-		// http://www.codejava.net/java-se/file-io/how-to-read-and-write-text-file-in-java
-		// Call this at the beginning of the test program.
+		// Call this at the beginning of the test program after the hash table is
+		// instantiated.
 		// Read from text file and add all contents to the hash table.
-		// If read-in is 7 lines, instantiate a full-time employee and add it.
-		// If read-in is 9 lines, instantiate a part-time employee and add it.
-
+		BufferedReader reader;
+		try {
+			reader = new BufferedReader(new FileReader("textFile"));
+			String line;
+			while ((line = reader.readLine()) != null) {
+				if (line.equals("Full Time")) {
+					line = reader.readLine();
+					int empNum = Integer.parseInt(line);
+					line = reader.readLine();
+					String firstName = line;
+					line = reader.readLine();
+					String lastName = line;
+					line = reader.readLine();
+					String sex = line;
+					line = reader.readLine();
+					String workLoc = line;
+					line = reader.readLine();
+					Double deductRate = Double.parseDouble(line);
+					line = reader.readLine();
+					Double yearlySalary = Double.parseDouble(line);
+					line = reader.readLine();
+					EmployeeInfo theEmployee = new FullTimeEmployee(empNum, firstName, lastName, sex, workLoc,
+							deductRate, yearlySalary);
+					addEmployee(theEmployee);
+				} else if (line.equals("Part Time")) {
+					line = reader.readLine();
+					int empNum = Integer.parseInt(line);
+					line = reader.readLine();
+					String firstName = line;
+					line = reader.readLine();
+					String lastName = line;
+					line = reader.readLine();
+					String sex = line;
+					line = reader.readLine();
+					String workLoc = line;
+					line = reader.readLine();
+					Double deductRate = Double.parseDouble(line);
+					line = reader.readLine();
+					Double hourlyWage = Double.parseDouble(line);
+					line = reader.readLine();
+					Double hoursPerWeek = Double.parseDouble(line);
+					line = reader.readLine();
+					Double weeksPerYear = Double.parseDouble(line);
+					line = reader.readLine();
+					EmployeeInfo theEmployee = new PartTimeEmployee(empNum, firstName, lastName, sex, workLoc,
+							deductRate, hourlyWage, hoursPerWeek, weeksPerYear);
+					addEmployee(theEmployee);
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
