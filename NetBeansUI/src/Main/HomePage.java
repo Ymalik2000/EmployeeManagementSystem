@@ -7,17 +7,25 @@ package Main;
 
 import javax.swing.JPanel;
 
+import java.util.*;
+
 /**
  *
  * @author ymali
  */
-public class HomePage extends javax.swing.JFrame {
 
+
+public class HomePage extends javax.swing.JFrame {
     /**
      * Creates new form HomePage
      */
+    public MyHashTable theHashTable;
+    
+    
     public HomePage() {
         initComponents();
+        
+        theHashTable = new MyHashTable(2);
     }
 
     /**
@@ -53,28 +61,28 @@ public class HomePage extends javax.swing.JFrame {
         jLabel18 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        intro1 = new Main.Panels.Intro();
-        addEmp1 = new Main.Panels.AddEmp();
-        editEmp1 = new Main.Panels.EditEmp();
-        listEmp1 = new Main.Panels.ListEmp();
-        removeEmp1 = new Main.Panels.RemoveEmp();
+        intro1 = new Main.Intro();
+        addEmp1 = new Main.AddEmp();
+        editEmp1 = new Main.EditEmp();
+        listEmp1 = new Main.ListEmp();
+        removeEmp1 = new Main.RemoveEmp();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocationByPlatform(true);
         setUndecorated(true);
 
-        jPanel1.setBackground(new java.awt.Color(255, 0, 0));
-        jPanel1.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseDragged(java.awt.event.MouseEvent evt) {
-                jPanel1MouseDragged(evt);
-            }
-        });
+        jPanel1.setBackground(new java.awt.Color(239, 83, 80));
         jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 jPanel1MouseEntered(evt);
             }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jPanel1MousePressed(evt);
+            }
+        });
+        jPanel1.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                jPanel1MouseDragged(evt);
             }
         });
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -412,8 +420,10 @@ public class HomePage extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 0, -1, -1));
+
+        intro1.setBackground(new java.awt.Color(239, 83, 80));
         jPanel1.add(intro1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 80, -1, -1));
-        jPanel1.add(addEmp1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 80, -1, -1));
+        jPanel1.add(addEmp1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 80, 720, 480));
         jPanel1.add(editEmp1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 80, -1, -1));
         jPanel1.add(listEmp1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 80, -1, -1));
         jPanel1.add(removeEmp1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 80, -1, -1));
@@ -632,9 +642,9 @@ boolean startCheck = false;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private Main.Panels.AddEmp addEmp1;
-    private Main.Panels.EditEmp editEmp1;
-    private Main.Panels.Intro intro1;
+    private Main.AddEmp addEmp1;
+    private Main.EditEmp editEmp1;
+    private Main.Intro intro1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -659,7 +669,7 @@ boolean startCheck = false;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField jTextField1;
-    private Main.Panels.ListEmp listEmp1;
-    private Main.Panels.RemoveEmp removeEmp1;
+    private Main.ListEmp listEmp1;
+    private Main.RemoveEmp removeEmp1;
     // End of variables declaration//GEN-END:variables
 }
