@@ -4,13 +4,15 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 
 public class MyHashTable {
 
 	// ATTRIBUTES
 	// Buckets is an array of ArrayList.
 	// Each item in an ArrayList is an EmployeeInfo object.
-	private ArrayList<EmployeeInfo>[] buckets;
+	public ArrayList<EmployeeInfo>[] buckets;
 
 	// CONSTRUCTORS
 	public MyHashTable(int howManyBuckets) {
@@ -53,32 +55,33 @@ public class MyHashTable {
 		return -1;
 	}
 
-	public void displayEmployee(int employeeNum) {
+	public void displayEmployee(int employeeNum, JTextArea outPut ) {
 		EmployeeInfo theEmployee = (EmployeeInfo) buckets[calcBucket(employeeNum)]
 				.get(searchByEmployeeNumber(employeeNum));
 		if (theEmployee instanceof FullTimeEmployee) {
-			System.out.println("Employee type: Full Time");
+			outPut.append("Employee type: Full Time" + "\n");
 		} else if (theEmployee instanceof PartTimeEmployee) {
-			System.out.println("Employee type: Part Time");
+			outPut.append("Employee type: Part Time" + "\n");
 		}
-		System.out.println("Employee number: " + theEmployee.getEmpNum());
-		System.out.println("First name: " + theEmployee.getFirstName());
-		System.out.println("Last name: " + theEmployee.getLastName());
-		System.out.println("Sex: " + theEmployee.getSex());
-		System.out.println("Work location: " + theEmployee.getWorkLoc());
-		System.out.println("Deduct rate: " + theEmployee.getDeductRate());
+		outPut.append("Employee number: " + theEmployee.getEmpNum() + "\n");
+		outPut.append("First name: " + theEmployee.getFirstName() + "\n");
+		outPut.append("Last name: " + theEmployee.getLastName() + "\n");
+		outPut.append("Sex: " + theEmployee.getSex() + "\n");
+		outPut.append("Work location: " + theEmployee.getWorkLoc() + "\n");
+		outPut.append("Deduct rate: " + theEmployee.getDeductRate() + "\n");
 		if (theEmployee instanceof FullTimeEmployee) {
-			System.out.println("Yearly salary: " + ((FullTimeEmployee) theEmployee).getYearlySalary());
-			System.out.println("Annual gross income: " + ((FullTimeEmployee) theEmployee).calcAnnualGrossIncome());
-			System.out.println("Annual net income: " + ((FullTimeEmployee) theEmployee).calcAnnualNetIncome());
+			outPut.append("Yearly salary: " + ((FullTimeEmployee) theEmployee).getYearlySalary() + "\n");
+			outPut.append("Annual gross income: " + ((FullTimeEmployee) theEmployee).calcAnnualGrossIncome() + "\n");
+			outPut.append("Annual net income: " + ((FullTimeEmployee) theEmployee).calcAnnualNetIncome() + "\n");
 		} else if (theEmployee instanceof PartTimeEmployee) {
-			System.out.println("Hourly wage: " + ((PartTimeEmployee) theEmployee).getHourlyWage());
-			System.out.println("Hours per week: " + ((PartTimeEmployee) theEmployee).getHoursPerWeek());
-			System.out.println("Weeks per year: " + ((PartTimeEmployee) theEmployee).getWeeksPerYear());
-			System.out.println("Annual gross income: " + ((PartTimeEmployee) theEmployee).calcAnnualGrossIncome());
-			System.out.println("Annual net income: " + ((PartTimeEmployee) theEmployee).calcAnnualNetIncome());
+			outPut.append("Hourly wage: " + ((PartTimeEmployee) theEmployee).getHourlyWage() + "\n");
+			outPut.append("Hours per week: " + ((PartTimeEmployee) theEmployee).getHoursPerWeek() + "\n");
+			outPut.append("Weeks per year: " + ((PartTimeEmployee) theEmployee).getWeeksPerYear() + "\n");
+			outPut.append("Annual gross income: " + ((PartTimeEmployee) theEmployee).calcAnnualGrossIncome() + "\n");
+			outPut.append("Annual net income: " + ((PartTimeEmployee) theEmployee).calcAnnualNetIncome() + "\n");
+                        
 		}
-		System.out.println();
+                outPut.append("" + "\n");
 	}
 
 	public void editEmployee(String empType, int employeeNum, String firstName, String lastName, String sex,
@@ -135,12 +138,16 @@ public class MyHashTable {
 		// Remove the employee from the hash table
 		int i = searchByEmployeeNumber(employeeNum);
 		if (i != -1) {
+                    JOptionPane.showMessageDialog(null, "Employee " + employeeNum + " has been removed");
 			buckets[calcBucket(employeeNum)].remove(i);
 			writeToFile();
-		}
+                }
+                else if (i == -1){
+                    JOptionPane.showMessageDialog(null, "This Employee Does Not Exist");
+                }
 	}
 
-	public void displayContents() {
+	public void displayContents(JTextArea outPut) {
 		// Print the employee numbers for the employees stored in each bucket's
 		// ArrayList.
 		// Start with bucket 0, then bucket 1, and so on.
@@ -150,7 +157,7 @@ public class MyHashTable {
 			if (listSize != 0) {
 				for (int j = 0; j < listSize; j++) {
 					EmployeeInfo theEmployee = buckets[i].get(j);
-					displayEmployee(theEmployee.getEmpNum());
+					displayEmployee(theEmployee.getEmpNum(), outPut);
 				}
 			}
 		}
@@ -263,6 +270,56 @@ public class MyHashTable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+                
 	}
-
+        public int getEmpNum(int employeeNum) {
+        EmployeeInfo theEmployee = (EmployeeInfo) buckets[calcBucket(employeeNum)]
+				.get(searchByEmployeeNumber(employeeNum));
+            return(theEmployee.getEmpNum());
+	}
+	public String getFirstName(int employeeNum) {
+		EmployeeInfo theEmployee = (EmployeeInfo) buckets[calcBucket(employeeNum)]
+				.get(searchByEmployeeNumber(employeeNum));
+            return(theEmployee.getFirstName());
+	}
+        public String getLastName(int employeeNum) {
+		EmployeeInfo theEmployee = (EmployeeInfo) buckets[calcBucket(employeeNum)]
+				.get(searchByEmployeeNumber(employeeNum));
+            return(theEmployee.getLastName());
+	}
+        public String getSex(int employeeNum) {
+		EmployeeInfo theEmployee = (EmployeeInfo) buckets[calcBucket(employeeNum)]
+				.get(searchByEmployeeNumber(employeeNum));
+            return(theEmployee.getSex());
+        }
+        public String getWorkLoc(int employeeNum) {
+		EmployeeInfo theEmployee = (EmployeeInfo) buckets[calcBucket(employeeNum)]
+				.get(searchByEmployeeNumber(employeeNum));
+            return(theEmployee.getWorkLoc());
+	}
+        public double getDeductRate(int employeeNum) {
+		EmployeeInfo theEmployee = (EmployeeInfo) buckets[calcBucket(employeeNum)]
+				.get(searchByEmployeeNumber(employeeNum));
+            return(theEmployee.getDeductRate());
+	}
+        public double getYearlySalary(int employeeNum) {
+		FullTimeEmployee theEmployee = (FullTimeEmployee) buckets[calcBucket(employeeNum)]
+				.get(searchByEmployeeNumber(employeeNum));
+            return(theEmployee.getYearlySalary());
+	}
+        public double getHourlyWage(int employeeNum) {
+		PartTimeEmployee theEmployee = (PartTimeEmployee) buckets[calcBucket(employeeNum)]
+				.get(searchByEmployeeNumber(employeeNum));
+            return(theEmployee.getHourlyWage());
+	}
+        public double getHoursPerWeek(int employeeNum) {
+		PartTimeEmployee theEmployee = (PartTimeEmployee) buckets[calcBucket(employeeNum)]
+				.get(searchByEmployeeNumber(employeeNum));
+            return(theEmployee.getHoursPerWeek());
+	}
+        public double getWeeksPerYear(int employeeNum) {
+		PartTimeEmployee theEmployee = (PartTimeEmployee) buckets[calcBucket(employeeNum)]
+				.get(searchByEmployeeNumber(employeeNum));
+            return(theEmployee.getWeeksPerYear());
+	}
 }
